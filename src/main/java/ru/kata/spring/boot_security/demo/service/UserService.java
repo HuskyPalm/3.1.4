@@ -1,22 +1,17 @@
 package ru.kata.spring.boot_security.demo.service;
 
-import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.model.Person;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
+import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
 
-@Service
-public interface UserService {
-    void add(Person person);
-
-    void update(long id, Person updatedPerson);
-
-    void delete(long id);
-
-    List<Person> getAll();
-
-    Person getUserById(long id);
-    Person getPersonByUsername(String username);
-    User findByUsername(String username);
+@Component
+public interface UserService extends UserDetailsService {
+    void saveUser(User user);
+    void deleteUser(Long id);
+    void editUser(User user);
+    User getById(Long id);
+    List<User> getListUsers();
+    User findByEmail(String username);
 }

@@ -3,98 +3,57 @@ package ru.kata.spring.boot_security.demo.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.*;
 
 @Entity
-@Table(name = "table_roles")
+@Table(name = "roles")
 public class Role implements GrantedAuthority {
-    private String roleName;
     @Id
-
-    private long roleId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String role;
 
     public Role() {
     }
 
-    @ManyToMany(mappedBy = "roles")
-    Set<Person> users = new HashSet<>();
-
-    public Set<Person> getUsers() {
-        return users;
+    public Role(Long id) {
+        this.id = id;
     }
 
-    public void setUsers(Set<Person> users) {
-        this.users = users;
+    public Role(Long id, String role) {
+        this.id = id;
+        this.role = role;
     }
 
-    public Role(long roleId, String roleName) {
-        this.roleName = roleName;
-        this.roleId = roleId;
+    public Role(String role) {
+        this.role = role;
     }
 
-    public Role(String roleName, long roleId, Set<Person> users) {
-        this.roleName = roleName;
-        this.roleId = roleId;
-        this.users = users;
+    public Long getId() {
+        return id;
     }
 
-    public Role(long id, String roleName, long roleId) {
-        this.roleName = roleName;
-        this.roleId = roleId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(long roleId) {
-        this.roleId = roleId;
+    public void setRole(String name) {
+        this.role = name;
     }
 
     @Override
     public String toString() {
         return "Role{" +
-                "roleName='" + roleName + '\'' +
+                "id=" + id +
+                ", name='" + role + '\'' +
                 '}';
-    }
-
-    public static List<Role> getAllRoles() {
-        return Arrays.asList(
-                Admin(),
-                User()
-        );
-    }
-
-    public static Role Admin() {
-        return new Role(0, "ROLE_ADMIN");
-    }
-
-    public static Role User() {
-        return new Role(1, "ROLE_USER");
     }
 
     @Override
     public String getAuthority() {
-        return roleName;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(roleId);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        return this.hashCode() == obj.hashCode();
+        return getRole();
     }
 }
